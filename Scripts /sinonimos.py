@@ -1,7 +1,29 @@
+import networkx as nx
 import matplotlib.pyplot as plt
 import tkinter as tk
 from tkinter import ttk
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+
+grafo_palavras = nx.DiGraph()
+palavras_adicionadas = set()
+
+def adicionar_palavra():
+    palavra = palavra_entry.get()
+    sinonimos = sinonimos_entry.get().split(',')
+    
+    if palavra in palavras_adicionadas:
+        resultado_label.config(text=f"'{palavra}' já existe no grafo.")
+        return
+
+    grafo_palavras.add_node(palavra)
+    palavras_adicionadas.add(palavra)
+
+    for sinonimo in sinonimos:
+        sinonimo = sinonimo.strip()
+        grafo_palavras.add_edge(palavra, sinonimo)
+
+    palavra_entry.delete(0, 'end')
+    sinonimos_entry.delete(0, 'end')
 
 root = tk.Tk()
 root.title("Visualização de Grafo de Palavras")
