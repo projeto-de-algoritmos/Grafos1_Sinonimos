@@ -5,7 +5,6 @@ from tkinter import ttk
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import json
 
-# Carregar o grafo de palavras a partir de um arquivo JSON, se existir.
 try:
     with open('grafo_palavras.json', 'r') as file:
         grafo_palavras_data = json.load(file)
@@ -35,7 +34,6 @@ def adicionar_palavra():
 
     desenhar_grafo()
 
-    # Salvar o grafo atualizado em um arquivo JSON
     with open('grafo_palavras.json', 'w') as file:
         grafo_palavras_data = nx.node_link_data(grafo_palavras)
         json.dump(grafo_palavras_data, file)
