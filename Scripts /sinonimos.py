@@ -17,8 +17,8 @@ except FileNotFoundError:
 palavras_adicionadas = set()
 
 def adicionar_palavra():
-    palavra = palavra_entry.get().lower()   
-    sinonimos = sinonimos_entry.get().lower().split(',')
+    palavra = palavra_entry.get().strip().lower()
+    sinonimos = [sin.lower().strip() for sin in sinonimos_entry.get().split(',')]
 
     if palavra in palavras_adicionadas:
         resultado_label.config(text=f"'{palavra}' já existe no grafo.")
@@ -28,7 +28,6 @@ def adicionar_palavra():
     palavras_adicionadas.add(palavra)
 
     for sinonimo in sinonimos:
-        sinonimo = sinonimo.strip().lower()
         grafo_palavras.add_edge(palavra, sinonimo)
 
     palavra_entry.delete(0, 'end')
@@ -41,7 +40,7 @@ def adicionar_palavra():
         json.dump(grafo_palavras_data, file)
 
 def apagar_palavra():
-    palavra = palavra_apagar_entry.get().lower()
+    palavra = palavra_apagar_entry.get().strip().lower()
     
     if palavra in grafo_palavras:
 
@@ -57,6 +56,7 @@ def apagar_palavra():
             json.dump(grafo_palavras_data, file)
     else:
         resultado_label.config(text=f"'{palavra}' não encontrado no grafo.")
+        
 def desenhar_grafo():
     pos = nx.spring_layout(grafo_palavras)
     ax.clear()
@@ -64,7 +64,7 @@ def desenhar_grafo():
     canvas.draw()
 
 def mostrar_subgrafo():
-    palavra = palavra_busca_entry.get().lower()
+    palavra = palavra_busca_entry.get().strip().lower()
     if palavra in grafo_palavras:
         subgrafo = nx.bfs_tree(grafo_palavras, source=palavra)
         pos = nx.spring_layout(subgrafo)
@@ -74,6 +74,10 @@ def mostrar_subgrafo():
         resultado_label.config(text=f"Subgrafo a partir de '{palavra}':")
     else:
         resultado_label.config(text=f"'{palavra}' não encontrado no grafo.")
+
+def mostrar_grafo_completo():
+    desenhar_grafo()
+    resultado_label.config(text="Grafo Completo:")
 
 root = tk.Tk()
 root.title("Visualização de Grafo de Palavras")
@@ -118,6 +122,9 @@ palavra_apagar_entry.pack()
 
 apagar_button = ttk.Button(frame, text="Apagar Palavra", command=apagar_palavra)
 apagar_button.pack()
+
+mostrar_grafo_completo_button = ttk.Button(frame, text="Mostrar Grafo Completo", command=mostrar_grafo_completo)
+mostrar_grafo_completo_button.pack()
 
 resultado_label = ttk.Label(frame, text="")
 resultado_label.pack()
