@@ -5,18 +5,20 @@ from tkinter import ttk
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import json
 
+grafo_palavras = nx.DiGraph()
+
 try:
     with open('grafo_palavras.json', 'r') as file:
         grafo_palavras_data = json.load(file)
         grafo_palavras = nx.node_link_graph(grafo_palavras_data)
-except (FileNotFoundError, json.decoder.JSONDecodeError):
+except FileNotFoundError:
     grafo_palavras = nx.DiGraph()
 
 palavras_adicionadas = set()
 
 def adicionar_palavra():
-    palavra = palavra_entry.get()
-    sinonimos = sinonimos_entry.get().split(',')
+    palavra = palavra_entry.get().lower()   
+    sinonimos = sinonimos_entry.get().lower().split(',')
 
     if palavra in palavras_adicionadas:
         resultado_label.config(text=f"'{palavra}' já existe no grafo.")
@@ -26,7 +28,7 @@ def adicionar_palavra():
     palavras_adicionadas.add(palavra)
 
     for sinonimo in sinonimos:
-        sinonimo = sinonimo.strip()
+        sinonimo = sinonimo.strip().lower()
         grafo_palavras.add_edge(palavra, sinonimo)
 
     palavra_entry.delete(0, 'end')
@@ -38,6 +40,23 @@ def adicionar_palavra():
         grafo_palavras_data = nx.node_link_data(grafo_palavras)
         json.dump(grafo_palavras_data, file)
 
+def apagar_palavra():
+    palavra = palavra_apagar_entry.get().lower()
+    
+    if palavra in grafo_palavras:
+
+        subgrafo = nx.bfs_tree(grafo_palavras, source=palavra)
+        
+        grafo_palavras.remove_nodes_from(subgrafo.nodes)
+        
+        desenhar_grafo()
+        resultado_label.config(text=f"'{palavra}' e seus sinônimos foram apagados do grafo.")
+        
+        with open('grafo_palavras.json', 'w') as file:
+            grafo_palavras_data = nx.node_link_data(grafo_palavras)
+            json.dump(grafo_palavras_data, file)
+    else:
+        resultado_label.config(text=f"'{palavra}' não encontrado no grafo.")
 def desenhar_grafo():
     pos = nx.spring_layout(grafo_palavras)
     ax.clear()
@@ -45,7 +64,7 @@ def desenhar_grafo():
     canvas.draw()
 
 def mostrar_subgrafo():
-    palavra = palavra_busca_entry.get()
+    palavra = palavra_busca_entry.get().lower()
     if palavra in grafo_palavras:
         subgrafo = nx.bfs_tree(grafo_palavras, source=palavra)
         pos = nx.spring_layout(subgrafo)
@@ -62,7 +81,7 @@ root.title("Visualização de Grafo de Palavras")
 frame = ttk.Frame(root)
 frame.pack(padx=10, pady=10)
 
-fig = plt.figure(figsize=(6, 6))
+fig = plt.figure(figsize=(8, 6))
 ax = fig.add_subplot(111)
 canvas = FigureCanvasTkAgg(fig, master=frame)
 canvas.get_tk_widget().pack()
@@ -90,6 +109,15 @@ palavra_busca_entry.pack()
 
 buscar_button = ttk.Button(frame, text="Buscar Subgrafo", command=mostrar_subgrafo)
 buscar_button.pack()
+
+palavra_apagar_label = ttk.Label(frame, text="Palavra para apagar:")
+palavra_apagar_label.pack()
+
+palavra_apagar_entry = ttk.Entry(frame)
+palavra_apagar_entry.pack()
+
+apagar_button = ttk.Button(frame, text="Apagar Palavra", command=apagar_palavra)
+apagar_button.pack()
 
 resultado_label = ttk.Label(frame, text="")
 resultado_label.pack()
