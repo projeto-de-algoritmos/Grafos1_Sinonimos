@@ -9,7 +9,7 @@ try:
     with open('grafo_palavras.json', 'r') as file:
         grafo_palavras_data = json.load(file)
         grafo_palavras = nx.node_link_graph(grafo_palavras_data)
-except FileNotFoundError:
+except (FileNotFoundError, json.decoder.JSONDecodeError):
     grafo_palavras = nx.DiGraph()
 
 palavras_adicionadas = set()
