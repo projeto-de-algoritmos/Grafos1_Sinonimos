@@ -13,7 +13,9 @@ Temas:
 | 17/0114139  |  Samuel Victor Castro Macêdo |
 
 ## Sobre 
-Sinônimos é um projeto basico para mostrar palavras semelhantes utilizando grafos direcionados. 
+Sinônimos é um projeto basico para mostrar palavras semelhantes utilizando grafos direcionados, onde as palavras são os nós do grafo e os sinônimos são representados como arestas entre os nós. 
+
+Sinônimos oferece uma maneira interativa e gráfica de criar e explorar um grafo de palavras e seus sinônimos. É útil para fins educacionais ou como uma ferramenta de visualização para análise de palavras e suas relações.
 
 ## Screenshots
 ![image](imagens/Captura%20de%20tela%202023-09-25%20200912.png)
@@ -57,12 +59,12 @@ Sinônimos é um projeto basico para mostrar palavras semelhantes utilizando gra
 
 
 ## Uso 
-1. Escreva a palavra desejada no campo "Palavra" 
-2. Adicione os sinônimos da palavra no campo "Sinônimos", se tiver mais de um, separe por virgulas e clique no botão "Adicionar palavra"
-3. Busque por uma palavra e um frafo especifíco no botão "Buscar Subgrafo"
+1. Escreva a palavra desejada no campo "Palavra". 
+2. Adicione os sinônimos da palavra no campo "Sinônimos", se tiver mais de um, separe por virgulas e clique no botão "Adicionar palavra".
+3. Busque por uma palavra e um Grafo especifíco no botão "Buscar Subgrafo".
 4. Apague uma palavra do grafo no botão "Apagar palavra"
 5. Brinque do jeito que quiser com os grafos.
-6. Para ver os grafos de forma completa clique no botão 
+6. Para ver os grafos de forma completa clique no botão "mostrar grafo completo".
 
 ## Apresentação
 
