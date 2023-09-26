@@ -40,7 +40,7 @@ Sinônimos oferece uma maneira interativa e gráfica de criar e explorar um graf
 - Clone o projeto (ou baixe):
   
   ```shell
-  git clone https://github.com/projeto-de-algoritmos/Grafos1_Sinonimos.git 
+  git clone(https://github.com/projeto-de-algoritmos/Grafos1_Sinonimos.git)
   && cd Grafos1_Sinonimos/
   ```
 - Instale as bibliotecas necessárias:
@@ -67,5 +67,5 @@ Sinônimos oferece uma maneira interativa e gráfica de criar e explorar um graf
 6. Para ver os grafos de forma completa clique no botão "mostrar grafo completo".
 
 ## Apresentação
-
+[Link Apresentação](https://youtu.be/ZincctSkj5I)
 
